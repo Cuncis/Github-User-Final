@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.detail.DetailUserActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ctbMovie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_profil"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="6dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_launcher_background"
+                    android:fitsSystemWindows="true"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    app:layout_collapseMode="parallax" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_profil"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:background="@drawable/cell_layout"
+                    android:padding="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follower"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_follower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        tools:text="1000"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginStart="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/following"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_following"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/holo_red_dark"
+                        tools:text="10"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@color/colorPrimary"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabTextColor="@android:color/white" />
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fav_favorite"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_baseline_favorite_border"
+        android:layout_margin="15dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
