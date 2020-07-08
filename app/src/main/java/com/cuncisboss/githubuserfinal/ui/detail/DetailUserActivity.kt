@@ -20,9 +20,14 @@ import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
 import com.cuncisboss.githubuserfinal.data.local.db.MappingHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
+import com.cuncisboss.githubuserfinal.data.remote.ApiClient
+import com.cuncisboss.githubuserfinal.repository.ApiGithubRepository
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
 import com.cuncisboss.githubuserfinal.util.Constants
 import com.cuncisboss.githubuserfinal.util.ImageHelper.Companion.getImageFromUrl
+import com.cuncisboss.githubuserfinal.util.Status
+import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
+import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail_user.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,7 +36,7 @@ import kotlinx.coroutines.launch
 
 class DetailUserActivity : AppCompatActivity() {
 
-    private lateinit var detailUserViewModel: DetailUserViewModel
+    private lateinit var detailUserViewModel: ApiGithubViewModel
 
     private var isFavorite = 0
     private lateinit var dbHelper: FavoriteHelper
@@ -51,7 +56,9 @@ class DetailUserActivity : AppCompatActivity() {
         dbHelper = FavoriteHelper.getInstance(this)
         dbHelper.open()
 
-        detailUserViewModel = ViewModelProvider(this).get(DetailUserViewModel::class.java)
+        val repository = ApiGithubRepository(ApiClient.theGithubApi)
+        val factory = ApiGithubViewModelFactory(repository)
+        detailUserViewModel = ViewModelProvider(this, factory).get(ApiGithubViewModel::class.java)
 
         viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
         tabs.setupWithViewPager(viewPager)
@@ -135,30 +142,38 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel(username: String) {
-        detailUserViewModel.getDetailUser(username).observe(this, Observer { response ->
-            tv_follower.text = response.followers.toString()
-            tv_following.text = response.following.toString()
-            img_profil.getImageFromUrl(response.avatarUrl)
+        detailUserViewModel.getDetailUser(username)
+        detailUserViewModel.detailUser.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { response ->
+                        tv_follower.text = response.followers.toString()
+                        tv_following.text = response.following.toString()
+                        img_profil.getImageFromUrl(response.avatarUrl)
 
-            if (getUser(response.login) == 0) {
-                removeFavorite(true)
-            } else {
-                setFavorite(true)
+                        if (getUser(response.login) == 0) {
+                            removeFavorite(true)
+                        } else {
+                            setFavorite(true)
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> { }
             }
         })
-        detailUserViewModel.detailUser.observe(this, Observer { user ->
-            if (getUser(user.login) == 0) {
-                if (addFavorite(FavoriteModel(user.login, user.avatarUrl, 1)) > 0) {
+        detailUserViewModel.favDetail.observe(this, Observer { response ->
+            if (getUser(response.login) == 0) {
+                if (addFavorite(FavoriteModel(response.login, response.avatarUrl, 1)) > 0) {
                     Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                if (deleteFavorite(FavoriteModel(user.login, user.avatarUrl, 0)) > 0) {
+                if (deleteFavorite(FavoriteModel(response.login, response.avatarUrl, 0)) > 0) {
                     Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
                 }
             }
-        })
-        detailUserViewModel.getMessage().observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
     }
 

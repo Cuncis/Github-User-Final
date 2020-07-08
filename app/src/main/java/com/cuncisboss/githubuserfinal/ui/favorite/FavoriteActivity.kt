@@ -1,6 +1,5 @@
 package com.cuncisboss.githubuserfinal.ui.favorite
 
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,8 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
-import com.cuncisboss.githubuserfinal.adapter.FavoriteAdapter
-import com.cuncisboss.githubuserfinal.adapter.UserFollAdapter
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
@@ -31,7 +28,8 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
-        adapter = FavoriteAdapter(this)
+        adapter =
+            FavoriteAdapter(this)
         rv_favorites.adapter = adapter
 
         observeViewModel()

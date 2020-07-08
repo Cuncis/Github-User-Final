@@ -11,21 +11,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.adapter.UserAdapter
+import com.cuncisboss.githubuserfinal.data.model.SearchUserResponse
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.model.UserGithubResponse
+import com.cuncisboss.githubuserfinal.data.remote.ApiClient
+import com.cuncisboss.githubuserfinal.repository.ApiGithubRepository
+import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.ui.favorite.FavoriteActivity
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
 import com.cuncisboss.githubuserfinal.util.Constants.EXTRA_USER
 import com.cuncisboss.githubuserfinal.util.Constants.MAX_SIZE
+import com.cuncisboss.githubuserfinal.util.Status
 import com.cuncisboss.githubuserfinal.util.Utils.hideLoadingBar
 import com.cuncisboss.githubuserfinal.util.Utils.showLoadingBar
+import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search_user.*
 
 class SearchUserActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
     private lateinit var userAdapter: UserAdapter
-    private lateinit var userViewModel: SearchUserViewModel
+    private lateinit var viewModelApi: ApiGithubViewModel
 
     private var userList = arrayListOf<UserGithub>()
     private var userTemp = arrayListOf<UserGithub>()
@@ -34,7 +40,15 @@ class SearchUserActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_user)
         userAdapter = UserAdapter(this, this)
-        userViewModel = ViewModelProvider(this).get(SearchUserViewModel::class.java)
+        val repository =
+            ApiGithubRepository(
+                ApiClient.theGithubApi
+            )
+        val factory =
+            ApiGithubViewModelFactory(
+                repository
+            )
+        viewModelApi = ViewModelProvider(this, factory).get(ApiGithubViewModel::class.java)
         rv_user.adapter = userAdapter
 
         getUserGithub()
@@ -53,32 +67,7 @@ class SearchUserActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
             requestFocusFromTouch()
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    userViewModel.searchUser(query!!).observe(this@SearchUserActivity, Observer { response ->
-                        when {
-                            response.items.size >= MAX_SIZE -> {
-                                userTemp.clear()
-                                for (i in 0 until MAX_SIZE) {
-                                    val userGithub =
-                                        UserGithub()
-                                    userGithub.login = response.items[i].login
-                                    userGithub.avatarUrl = response.items[i].avatarUrl
-                                    userTemp.add(userGithub)
-                                }
-                                userAdapter.setUserList(userTemp)
-                            }
-                            response.items.size < MAX_SIZE -> {
-                                userTemp.clear()
-                                for (item in response.items) {
-                                    val userGithub =
-                                        UserGithub()
-                                    userGithub.login = item.login
-                                    userGithub.avatarUrl = item.avatarUrl
-                                    userTemp.add(userGithub)
-                                }
-                                userAdapter.setUserList(userTemp)
-                            }
-                        }
-                    })
+                    viewModelApi.getSearchUser(query!!)
                     return true
                 }
 
@@ -93,16 +82,50 @@ class SearchUserActivity : AppCompatActivity(), UserAdapter.ItemClickListener {
     }
 
     private fun observeViewModel() {
-        userViewModel.onLoading().observe(this, Observer { loading ->
-            if (loading) {
-                layout_progressBar.showLoadingBar(this)
-            } else {
-                layout_progressBar.hideLoadingBar(this)
+        viewModelApi.searchUser.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    layout_progressBar.hideLoadingBar(this)
+                    it.data?.let { response ->
+                        getUser(response)
+                    }
+                }
+                Status.ERROR -> {
+                    layout_progressBar.hideLoadingBar(this)
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> {
+                    layout_progressBar.showLoadingBar(this)
+                }
             }
         })
-        userViewModel.getMessage().observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        })
+    }
+
+    private fun getUser(response: SearchUserResponse) {
+        when {
+            response.items.size >= MAX_SIZE -> {
+                userTemp.clear()
+                for (i in 0 until MAX_SIZE) {
+                    val userGithub =
+                        UserGithub()
+                    userGithub.login = response.items[i].login
+                    userGithub.avatarUrl = response.items[i].avatarUrl
+                    userTemp.add(userGithub)
+                }
+                userAdapter.setUserList(userTemp)
+            }
+            response.items.size < MAX_SIZE -> {
+                userTemp.clear()
+                for (item in response.items) {
+                    val userGithub =
+                        UserGithub()
+                    userGithub.login = item.login
+                    userGithub.avatarUrl = item.avatarUrl
+                    userTemp.add(userGithub)
+                }
+                userAdapter.setUserList(userTemp)
+            }
+        }
     }
 
     private fun getUserGithub() {

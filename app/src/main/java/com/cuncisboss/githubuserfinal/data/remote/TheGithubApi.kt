@@ -14,25 +14,26 @@ interface TheGithubApi {
 
     @GET("/search/users")
     @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
-    fun searchUser(
+    suspend fun searchUser(
         @Query("q") username: String
-    ): Call<SearchUserResponse>
+    ): SearchUserResponse
 
     @GET("/users/{username}")
-    fun getDetailUser(
+    @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
+    suspend fun getDetailUser(
         @Path("username") username: String
-    ): Call<DetailUserResponse>
+    ): DetailUserResponse
 
     @GET("/users/{username}/followers")
     @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
-    fun getFollowers(
+    suspend fun getFollowers(
         @Path("username") username: String
-    ): Call<List<FollModel>>
+    ): List<FollModel>
 
     @GET("/users/{username}/following")
     @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
-    fun getFollowing(
+    suspend fun getFollowing(
         @Path("username") username: String
-    ): Call<List<FollModel>>
+    ): List<FollModel>
 
 }
