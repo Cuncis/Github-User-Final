@@ -47,7 +47,8 @@
             android:layout_height="40dp"
             android:id="@+id/btn_cancelAlarm"
             android:layout_marginTop="4dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorDarkGray"
+            android:enabled="false"
             android:text="@string/batal"
             android:textColor="@android:color/white"/>
     </LinearLayout>

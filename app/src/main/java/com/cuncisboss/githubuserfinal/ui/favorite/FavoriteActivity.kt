@@ -86,6 +86,7 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
             val intent = Intent(this, DetailUserActivity::class.java)
             intent.putExtra(EXTRA_FAV_NAME, favModel.name)
             startActivity(intent)
+            finish()
             dialog.dismiss()
         }
         builder.setNegativeButton("Remove") { dialog, _ ->

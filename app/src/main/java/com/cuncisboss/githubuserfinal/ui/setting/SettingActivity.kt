@@ -38,7 +38,7 @@ class SettingActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListen
 
     private fun initListener() {
         if (alarmReceiver.isAlarmSet(this, AlarmReceiver.TYPE_REPEATING)) {
-            switch_alarm.isChecked = true
+            alarmOn()
         }
         if (switch_alarm.isChecked) {
             linear_alarm.showView()
@@ -59,6 +59,7 @@ class SettingActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListen
         }
 
         btn_setAlarm.setOnClickListener {
+            alarmOn()
             val repeatTime = tv_setTime.text.toString()
             val repeatMessage = getString(R.string.alarm_msg)
             alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
@@ -67,11 +68,26 @@ class SettingActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListen
 
         btn_cancelAlarm.setOnClickListener {
             alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING)
-            switch_alarm.isChecked = false
+            alarmOff()
             GithubPref.clear(this)
             tv_setTime.text = getString(R.string._00_00)
         }
+    }
 
+    private fun alarmOn() {
+        switch_alarm.isChecked = true
+        btn_setAlarm.setBackgroundResource(R.color.colorDarkGray)
+        btn_cancelAlarm.setBackgroundResource(R.color.colorPrimary)
+        btn_setAlarm.isEnabled = false
+        btn_cancelAlarm.isEnabled = true
+    }
+
+    private fun alarmOff() {
+        switch_alarm.isChecked = false
+        btn_setAlarm.setBackgroundResource(R.color.colorPrimary)
+        btn_cancelAlarm.setBackgroundResource(R.color.colorDarkGray)
+        btn_setAlarm.isEnabled = true
+        btn_cancelAlarm.isEnabled = false
     }
 
     override fun onSupportNavigateUp(): Boolean {

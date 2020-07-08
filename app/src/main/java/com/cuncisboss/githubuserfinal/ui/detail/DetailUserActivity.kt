@@ -45,8 +45,6 @@ class DetailUserActivity : AppCompatActivity() {
         initView()
 
         initFavorite()
-
-        testingString()
     }
 
     private fun initView() {
@@ -76,38 +74,63 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun initFavorite() {
         fav_favorite.setOnClickListener {
-            val user = intent.getParcelableExtra<UserGithub>(Constants.EXTRA_USER)!!
             if (isFavorite == 0) {
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite
-                    )
-                )
-                isFavorite = 1
-
-                if (user.username.isNotEmpty()) {
-                    detailUserViewModel.setFavorite(user.username)
-                } else {
-                    detailUserViewModel.setFavorite(user.login)
-                }
-
-
+                setFavorite(false)
             } else {
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite_border
-                    )
-                )
-                isFavorite = 0
-
-                if (user.username.isNotEmpty()) {
-                    detailUserViewModel.setFavorite(user.username)
-                } else {
-                    detailUserViewModel.setFavorite(user.login)
-                }
+                removeFavorite(false)
             }
+        }
+    }
+
+    private fun setFavorite(justIcon: Boolean) {
+        var username = ""
+        if (intent.hasExtra(Constants.EXTRA_USER)) {
+            val user = intent.getParcelableExtra<UserGithub>(Constants.EXTRA_USER)!!
+            username = if (user.username.isNotEmpty()) {
+                user.username
+            } else {
+                user.login
+            }
+        } else if (intent.hasExtra(Constants.EXTRA_FAV_NAME)) {
+            username = intent.getStringExtra(Constants.EXTRA_FAV_NAME)!!
+        }
+
+        fav_favorite.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.ic_baseline_favorite
+            )
+        )
+        isFavorite = 1
+
+        if (!justIcon) {
+            detailUserViewModel.setFavorite(username)
+        }
+    }
+
+    private fun removeFavorite(justIcon: Boolean) {
+        var username = ""
+        if (intent.hasExtra(Constants.EXTRA_USER)) {
+            val user = intent.getParcelableExtra<UserGithub>(Constants.EXTRA_USER)!!
+            username = if (user.username.isNotEmpty()) {
+                user.username
+            } else {
+                user.login
+            }
+        } else if (intent.hasExtra(Constants.EXTRA_FAV_NAME)) {
+            username = intent.getStringExtra(Constants.EXTRA_FAV_NAME)!!
+        }
+
+        fav_favorite.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.ic_baseline_favorite_border
+            )
+        )
+        isFavorite = 0
+
+        if (!justIcon) {
+            detailUserViewModel.setFavorite(username)
         }
     }
 
@@ -118,21 +141,9 @@ class DetailUserActivity : AppCompatActivity() {
             img_profil.getImageFromUrl(response.avatarUrl)
 
             if (getUser(response.login) == 0) {
-                isFavorite = 0
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite_border
-                    )
-                )
+                removeFavorite(true)
             } else {
-                isFavorite = 1
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite
-                    )
-                )
+                setFavorite(true)
             }
         })
         detailUserViewModel.detailUser.observe(this, Observer { user ->
@@ -149,24 +160,6 @@ class DetailUserActivity : AppCompatActivity() {
         detailUserViewModel.getMessage().observe(this, Observer { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
-    }
-
-    fun testingString() {
-        GlobalScope.launch(Dispatchers.Main) {
-            val deferredNotes = async(Dispatchers.IO) {
-                val cursor = dbHelper.queryAll()
-                MappingHelper.mapCursorToArrayList(cursor)
-            }
-            val notes = deferredNotes.await()
-            if (notes.size > 0) {
-                Log.d("_log", "testingString: $notes")
-                Log.d("_log", "testingString: ${getUser(getUsername())}")
-                Log.d("_log", "testingString: ${getUsername()}")
-
-            } else {
-                Log.d("_log", "Tidak ada data saat ini")
-            }
-        }
     }
 
     private fun addFavorite(favoriteModel: FavoriteModel): Long {
