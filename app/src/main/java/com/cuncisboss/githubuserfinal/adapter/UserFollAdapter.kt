@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cuncisboss.githubuserfinal.R
+import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.FollModel
 import com.cuncisboss.githubuserfinal.util.Constants.MAX_SIZE
 import com.cuncisboss.githubuserfinal.util.ImageHelper.Companion.getImageFromUrl

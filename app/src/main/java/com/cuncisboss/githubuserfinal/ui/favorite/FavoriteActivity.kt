@@ -1,49 +1,57 @@
 package com.cuncisboss.githubuserfinal.ui.favorite
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
-import com.cuncisboss.githubuserfinal.data.local.db.MappingHelper
+import com.cuncisboss.githubuserfinal.adapter.FavoriteAdapter
+import com.cuncisboss.githubuserfinal.adapter.UserFollAdapter
+import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.activity_favorite.*
 
-class FavoriteActivity : AppCompatActivity() {
+class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListener {
 
-    private lateinit var dbHelper: FavoriteHelper
+    private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var adapter: FavoriteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        dbHelper = FavoriteHelper.getInstance(this)
-        dbHelper.open()
 
-        loadFavoriteAsync()
+        favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        adapter = FavoriteAdapter(this)
+        rv_favorites.adapter = adapter
+
+        observeViewModel()
     }
 
-    private fun loadFavoriteAsync() {
-        GlobalScope.launch(Dispatchers.Main) {
-//            progressbar.visibility = View.VISIBLE
-            val deferredNotes = async(Dispatchers.IO) {
-                val cursor = dbHelper.queryAll()
-                MappingHelper.mapCursorToArrayList(cursor)
+    private fun observeViewModel() {
+        favoriteViewModel.getAllFavorites()
+        favoriteViewModel.favoriteList.observe(this, Observer {
+            if (it.isNotEmpty()) {
+                adapter.setFavoriteList(it)
+                Log.d("_log", "observeViewModel: $it")
+            } else {
+                Toast.makeText(this, "Favorites is Empty", Toast.LENGTH_SHORT).show()
             }
-//            progressbar.visibility = View.INVISIBLE
-//            val notes = deferredNotes.await()
-//            if (notes.size > 0) {
-//                adapter.listNotes = notes
-//            } else {
-//                adapter.listNotes = ArrayList()
-//                showSnackbarMessage("Tidak ada data saat ini")
-//            }
-        }
+        })
+        favoriteViewModel.removeFavorite.observe(this, Observer {
+            if (it > 0) {
+                Toast.makeText(this, "Favorite Removed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Favorite failed to remove", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,11 +59,6 @@ class FavoriteActivity : AppCompatActivity() {
         val menuFav = menu?.findItem(R.id.action_favorites)
         menuFav?.isVisible = false
         return true
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        dbHelper.close()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,5 +74,22 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return super.onSupportNavigateUp()
+    }
+
+    override fun onItemClick(favModel: FavoriteModel, position: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(true)
+        builder.setTitle(favModel.name)
+        builder.setPositiveButton("Detail") { dialog, _ ->
+            Toast.makeText(this, "Click ${favModel.name}", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Remove") { dialog, _ ->
+            favoriteViewModel.removeFavorite(favModel.name)
+            adapter.removeFavoriteList(position)
+            dialog.dismiss()
+        }
+        builder.show()
+
     }
 }

@@ -2,7 +2,6 @@ package com.cuncisboss.githubuserfinal.ui.detail.foll
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -29,7 +28,7 @@ class FollowerFragment : Fragment(R.layout.fragment_follower) {
         view.rv_followers.adapter = userFollAdapter
 
         val act = activity as DetailUserActivity
-        follViewModel.getFollowers(act.getUsername().toString()).observe(viewLifecycleOwner, Observer { followers ->
+        follViewModel.getFollowers(act.getUsername()).observe(viewLifecycleOwner, Observer { followers ->
             userFollAdapter.setFollList(followers)
         })
         follViewModel.onLoading().observe(viewLifecycleOwner, Observer { loading ->

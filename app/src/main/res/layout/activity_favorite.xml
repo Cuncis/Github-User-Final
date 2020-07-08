@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.favorite.FavoriteActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_favorites"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_user_foll"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
