@@ -82,11 +82,12 @@ class DetailUserActivity : AppCompatActivity() {
                 )
                 isFavorite = 1
 
-                if (addFavorite(FavoriteModel(user.username, user.avatarUrl, 1)) > 0) {
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
+                if (user.username.isNotEmpty()) {
+                    detailUserViewModel.setFavorite(user.username)
                 } else {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                    detailUserViewModel.setFavorite(user.login)
                 }
+
 
             } else {
                 fav_favorite.setImageDrawable(
@@ -96,14 +97,54 @@ class DetailUserActivity : AppCompatActivity() {
                     )
                 )
                 isFavorite = 0
-                if (deleteFavorite(FavoriteModel(user.username, user.avatarUrl, 0)) > 0) {
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-                }
 
+                if (user.username.isNotEmpty()) {
+                    detailUserViewModel.setFavorite(user.username)
+                } else {
+                    detailUserViewModel.setFavorite(user.login)
+                }
             }
         }
+    }
+
+    private fun observeViewModel(username: String) {
+        detailUserViewModel.getDetailUser(username).observe(this, Observer { response ->
+            tv_follower.text = response.followers.toString()
+            tv_following.text = response.following.toString()
+            img_profil.getImageFromUrl(response.avatarUrl)
+
+            if (getUser(response.login) == 0) {
+                isFavorite = 0
+                fav_favorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_baseline_favorite_border
+                    )
+                )
+            } else {
+                isFavorite = 1
+                fav_favorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_baseline_favorite
+                    )
+                )
+            }
+        })
+        detailUserViewModel.detailUser.observe(this, Observer { user ->
+            if (getUser(user.login) == 0) {
+                if (addFavorite(FavoriteModel(user.login, user.avatarUrl, 1)) > 0) {
+                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                if (deleteFavorite(FavoriteModel(user.login, user.avatarUrl, 0)) > 0) {
+                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+        detailUserViewModel.getMessage().observe(this, Observer { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
     }
 
     fun testingString() {
@@ -119,7 +160,7 @@ class DetailUserActivity : AppCompatActivity() {
                 Log.d("_log", "testingString: ${getUsername()}")
 
             } else {
-                Toast.makeText(this@DetailUserActivity, "Tidak ada data saat ini", Toast.LENGTH_SHORT).show()
+                Log.d("_log", "Tidak ada data saat ini")
             }
         }
     }
@@ -154,35 +195,6 @@ class DetailUserActivity : AppCompatActivity() {
         } else {
             user.login
         }
-    }
-
-    private fun observeViewModel(username: String) {
-        detailUserViewModel.getDetailUser(username).observe(this, Observer { response ->
-            tv_follower.text = response.followers.toString()
-            tv_following.text = response.following.toString()
-            img_profil.getImageFromUrl(response.avatarUrl)
-
-            if (getUser(response.login) == 0) {
-                isFavorite = 0
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite_border
-                    )
-                )
-            } else {
-                isFavorite = 1
-                fav_favorite.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_favorite
-                    )
-                )
-            }
-        })
-        detailUserViewModel.getMessage().observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
