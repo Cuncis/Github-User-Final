@@ -2,12 +2,11 @@ package com.cuncisboss.githubuserfinal.ui.detail
 
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteCol
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
-import com.cuncisboss.githubuserfinal.data.local.db.MappingHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.remote.ApiClient
@@ -29,10 +27,6 @@ import com.cuncisboss.githubuserfinal.util.Status
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail_user.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class DetailUserActivity : AppCompatActivity() {
 

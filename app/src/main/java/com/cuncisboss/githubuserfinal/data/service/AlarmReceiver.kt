@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.cuncisboss.githubuserfinal.R
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 

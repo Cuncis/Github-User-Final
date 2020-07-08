@@ -1,4 +1,4 @@
-package com.cuncisboss.githubuserfinal.ui.favorite
+package com.cuncisboss.githubuserfinal.adapter
 
 import android.view.LayoutInflater
 import android.view.View

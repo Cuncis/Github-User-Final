@@ -1,9 +1,9 @@
 package com.cuncisboss.githubuserfinal.ui.detail.foll
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
@@ -16,9 +16,7 @@ import com.cuncisboss.githubuserfinal.util.Utils.hideLoading
 import com.cuncisboss.githubuserfinal.util.Utils.showLoading
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
-import kotlinx.android.synthetic.main.fragment_follower.*
 import kotlinx.android.synthetic.main.fragment_following.*
-import kotlinx.android.synthetic.main.fragment_following.progressBar
 import kotlinx.android.synthetic.main.fragment_following.view.*
 
 

@@ -3,16 +3,13 @@ package com.cuncisboss.githubuserfinal.ui.favorite
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
 import com.cuncisboss.githubuserfinal.data.local.db.MappingHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 

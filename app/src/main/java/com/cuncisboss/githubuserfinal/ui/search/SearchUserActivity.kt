@@ -1,11 +1,11 @@
 package com.cuncisboss.githubuserfinal.ui.search
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +16,6 @@ import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.model.UserGithubResponse
 import com.cuncisboss.githubuserfinal.data.remote.ApiClient
 import com.cuncisboss.githubuserfinal.repository.ApiGithubRepository
-import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.ui.favorite.FavoriteActivity
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
@@ -26,6 +25,7 @@ import com.cuncisboss.githubuserfinal.util.Status
 import com.cuncisboss.githubuserfinal.util.Utils.hideLoadingBar
 import com.cuncisboss.githubuserfinal.util.Utils.showLoadingBar
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
+import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search_user.*
 

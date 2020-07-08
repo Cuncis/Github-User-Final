@@ -4,7 +4,6 @@ import com.cuncisboss.githubuserfinal.BuildConfig
 import com.cuncisboss.githubuserfinal.data.model.DetailUserResponse
 import com.cuncisboss.githubuserfinal.data.model.FollModel
 import com.cuncisboss.githubuserfinal.data.model.SearchUserResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path

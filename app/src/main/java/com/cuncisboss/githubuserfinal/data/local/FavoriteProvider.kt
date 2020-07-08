@@ -12,7 +12,6 @@ class FavoriteProvider : ContentProvider() {
         private const val FAVORITE = 1
         private const val FAVORITE_ID = 2
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-//        private lateinit var
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {

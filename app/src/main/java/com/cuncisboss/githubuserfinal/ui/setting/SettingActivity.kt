@@ -1,8 +1,7 @@
 package com.cuncisboss.githubuserfinal.ui.setting
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.data.local.GithubPref
 import com.cuncisboss.githubuserfinal.data.service.AlarmReceiver

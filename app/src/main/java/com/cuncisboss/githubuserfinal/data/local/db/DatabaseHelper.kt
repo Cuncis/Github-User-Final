@@ -1,6 +1,6 @@
 package com.cuncisboss.githubuserfinal.data.local.db
 
-import android.content.ContentValues
+
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -9,7 +9,7 @@ import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteCol
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
-import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
+
 
 class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {

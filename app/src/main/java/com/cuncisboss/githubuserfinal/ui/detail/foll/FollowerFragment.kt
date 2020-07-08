@@ -1,9 +1,9 @@
 package com.cuncisboss.githubuserfinal.ui.detail.foll
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
