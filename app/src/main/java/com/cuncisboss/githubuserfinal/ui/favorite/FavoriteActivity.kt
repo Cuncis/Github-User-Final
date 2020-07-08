@@ -15,7 +15,9 @@ import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.adapter.FavoriteAdapter
 import com.cuncisboss.githubuserfinal.adapter.UserFollAdapter
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
+import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
+import com.cuncisboss.githubuserfinal.util.Constants.EXTRA_FAV_NAME
 import kotlinx.android.synthetic.main.activity_favorite.*
 
 class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListener {
@@ -81,7 +83,9 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
         builder.setCancelable(true)
         builder.setTitle(favModel.name)
         builder.setPositiveButton("Detail") { dialog, _ ->
-            Toast.makeText(this, "Click ${favModel.name}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DetailUserActivity::class.java)
+            intent.putExtra(EXTRA_FAV_NAME, favModel.name)
+            startActivity(intent)
             dialog.dismiss()
         }
         builder.setNegativeButton("Remove") { dialog, _ ->

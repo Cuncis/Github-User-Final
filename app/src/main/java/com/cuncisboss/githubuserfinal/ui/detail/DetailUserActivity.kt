@@ -67,6 +67,10 @@ class DetailUserActivity : AppCompatActivity() {
                 title = user.login
                 observeViewModel(user.login)
             }
+        } else if (intent.hasExtra(Constants.EXTRA_FAV_NAME)) {
+            val username = intent.getStringExtra(Constants.EXTRA_FAV_NAME)!!
+            title = username
+            observeViewModel(username)
         }
     }
 
@@ -189,12 +193,18 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     fun getUsername(): String {
-        val user = intent.getParcelableExtra<UserGithub>(Constants.EXTRA_USER)!!
-        return if (user.username.isNotEmpty()) {
-            user.username
-        } else {
-            user.login
+        var username = ""
+        if (intent.hasExtra(Constants.EXTRA_USER)) {
+            val user = intent.getParcelableExtra<UserGithub>(Constants.EXTRA_USER)!!
+            username = if (user.username.isNotEmpty()) {
+                user.username
+            } else {
+                user.login
+            }
+        } else if (intent.hasExtra(Constants.EXTRA_FAV_NAME)){
+            username = intent.getStringExtra(Constants.EXTRA_FAV_NAME)!!
         }
+        return username
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
