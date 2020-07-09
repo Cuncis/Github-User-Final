@@ -2,6 +2,7 @@ package com.cuncisboss.githubuserfinal.ui.detail
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.adapter.ViewPagerAdapter
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_IMAGE
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
+import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
 import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
@@ -160,28 +162,27 @@ class DetailUserActivity : AppCompatActivity() {
         })
         detailUserViewModel.favDetail.observe(this, Observer { response ->
             if (getUser(response.login) == 0) {
-                if (addFavorite(FavoriteModel(response.login, response.avatarUrl, 1)) > 0) {
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
-                }
+                addFavorite(FavoriteModel(response.login, response.avatarUrl, 1))
+                Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
             } else {
-                if (deleteFavorite(FavoriteModel(response.login, response.avatarUrl, 0)) > 0) {
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
-                }
+                deleteFavorite(FavoriteModel(response.login, response.avatarUrl, 0))
+                Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun addFavorite(favoriteModel: FavoriteModel): Long {
+    private fun addFavorite(favoriteModel: FavoriteModel) {
         val values = ContentValues()
         values.put(COLUMN_NAME, favoriteModel.name)
         values.put(COLUMN_IMAGE, favoriteModel.image)
         values.put(IS_FAVORITE, favoriteModel.isFavorite)
 
-        return dbHelper.insert(values)
+        contentResolver.insert(CONTENT_URI, values)
     }
 
-    private fun deleteFavorite(favoriteModel: FavoriteModel): Int {
-        return dbHelper.deleteByUsername(favoriteModel.name)
+    private fun deleteFavorite(favoriteModel: FavoriteModel) {
+        val uri = Uri.parse("$CONTENT_URI/${favoriteModel.id}")
+        contentResolver.delete(uri, null, null)
     }
 
     private fun getUser(username: String): Int {

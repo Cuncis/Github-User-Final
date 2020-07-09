@@ -25,4 +25,18 @@ object MappingHelper {
         return favoriteList
     }
 
+    fun mapCursorToObject(favoriteCursor: Cursor?): FavoriteModel {
+        var favorite = FavoriteModel()
+        favoriteCursor?.apply {
+            moveToFirst()
+            val id = getInt(getColumnIndexOrThrow(_ID))
+            val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
+            val image = getString(getColumnIndexOrThrow(COLUMN_IMAGE))
+            val isFavorite = getInt(getColumnIndexOrThrow(IS_FAVORITE))
+            favorite = FavoriteModel(name, image, isFavorite, id)
+        }
+
+        return favorite
+    }
+
 }

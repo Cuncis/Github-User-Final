@@ -3,6 +3,8 @@
     package="com.cuncisboss.githubuserfinal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <permission android:name="com.cuncisboss.githubuserfinal.READ_DATABASE" android:protectionLevel="normal"/>
+    <permission android:name="com.cuncisboss.githubuserfinal.WRITE_DATABASE" android:protectionLevel="normal"/>
 
     <application
         android:allowBackup="true"
@@ -11,28 +13,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.setting.SettingActivity"
-            android:label="@string/settings"/>
-        <activity android:name=".ui.favorite.FavoriteActivity"
-            android:label="@string/favorites"/>
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:label="@string/settings" />
+        <activity
+            android:name=".ui.favorite.FavoriteActivity"
+            android:label="@string/favorites" />
 
         <receiver
             android:name=".data.service.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
-        <!-- <provider -->
-        <!-- android:name=".db.FavoriteProvider" -->
-        <!-- android:authorities="com.cuncisboss.githubuserfinal" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true"/> -->
+
+        <provider
+            android:name=".data.local.FavoriteProvider"
+            android:authorities="com.cuncisboss.githubuserfinal"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.cuncisboss.githubuserfinal.READ_DATABASE"
+            android:writePermission="com.cuncisboss.githubuserfinal.WRITE_DATABASE"/>
+
         <activity
             android:name=".ui.detail.DetailUserActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/detail_user"/>
+            android:label="@string/detail_user"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.search.SearchUserActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/github_search_user">
+            android:label="@string/github_search_user"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
