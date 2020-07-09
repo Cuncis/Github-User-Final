@@ -14,6 +14,7 @@ import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.util.Status
 import com.cuncisboss.githubuserfinal.util.Utils.hideLoading
 import com.cuncisboss.githubuserfinal.util.Utils.showLoading
+import com.cuncisboss.githubuserfinal.util.Utils.showView
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import kotlinx.android.synthetic.main.fragment_follower.*
@@ -45,7 +46,11 @@ class FollowerFragment : Fragment(R.layout.fragment_follower) {
                 Status.SUCCESS -> {
                     progressBar.hideLoading()
                     it.data?.let {  list ->
-                        userFollAdapter.setFollList(list)
+                        if (list.isNotEmpty()) {
+                            userFollAdapter.setFollList(list)
+                        } else {
+                            tv_message.showView()
+                        }
                     }
                 }
                 Status.ERROR -> {
