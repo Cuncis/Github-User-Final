@@ -1,18 +1,18 @@
-package com.cuncisboss.githubuserfinal.data.local.db
+package com.cuncisboss.githubuserfinal.data.local
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns._ID
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
 import java.sql.SQLException
 
 
 class FavoriteHelper(context: Context) {
 
-    private var dbHelper: DatabaseHelper = DatabaseHelper(context)
+    private var dbHelper: DatabaseHelper =
+        DatabaseHelper(context)
     private lateinit var db: SQLiteDatabase
 
     companion object {
@@ -20,8 +20,12 @@ class FavoriteHelper(context: Context) {
         private var INSTANCE: FavoriteHelper? = null
 
         fun getInstance(context: Context): FavoriteHelper =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: FavoriteHelper(context)
+            INSTANCE
+                ?: synchronized(this) {
+                INSTANCE
+                    ?: FavoriteHelper(
+                        context
+                    )
             }
 
     }

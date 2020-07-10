@@ -1,15 +1,13 @@
 package com.cuncisboss.githubuserfinal.ui.favorite
 
 import android.app.Application
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
-import com.cuncisboss.githubuserfinal.data.local.db.MappingHelper
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
+import com.cuncisboss.githubuserfinal.data.local.FavoriteHelper
+import com.cuncisboss.githubuserfinal.data.local.MappingHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -34,7 +32,6 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     fun getAllFavorites() {
         viewModelScope.launch(Dispatchers.Main) {
             val deferredNotes = async(Dispatchers.IO) {
-//                val cursor = dbHelper.queryAll()
                 val cursor = app.contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
@@ -47,7 +44,6 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         val uri = Uri.parse("$CONTENT_URI/$id")
         viewModelScope.launch {
             try {
-//                val rm = dbHelper.deleteByUsername(username)
                 val cursor = app.contentResolver.delete(uri, null, null)
                 _removeFavorite.postValue(cursor)
             } catch (e: Exception) {

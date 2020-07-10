@@ -1,4 +1,4 @@
-package com.cuncisboss.githubuserfinal.data.local.db
+package com.cuncisboss.githubuserfinal.data.local
 
 import android.net.Uri
 import android.provider.BaseColumns

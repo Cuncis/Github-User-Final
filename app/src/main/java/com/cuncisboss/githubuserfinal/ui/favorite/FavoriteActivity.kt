@@ -2,7 +2,6 @@ package com.cuncisboss.githubuserfinal.ui.favorite
 
 import android.content.Intent
 import android.database.ContentObserver
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -17,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.adapter.FavoriteAdapter
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.ui.detail.DetailUserActivity
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
@@ -31,9 +30,6 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
 
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var adapter: FavoriteAdapter
-    private lateinit var uriWithId: Uri
-
-    private var list = arrayListOf<FavoriteModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,21 +61,23 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
         if (savedInstanceState == null) {
             favoriteViewModel.getAllFavorites()
         } else {
-            list = savedInstanceState.getParcelableArrayList<FavoriteModel>(EXTRA_STATE)!!
-            adapter.setFavoriteList(list)
+            val list = savedInstanceState.getParcelableArrayList<FavoriteModel>(EXTRA_STATE)
+            if (list != null) {
+                adapter.favList = list
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        outState.putParcelableArrayList(EXTRA_STATE, list)
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.favList)
     }
 
     private fun observeViewModel() {
-        favoriteViewModel.getAllFavorites()
         favoriteViewModel.favoriteList.observe(this, Observer {
             if (it.isNotEmpty()) {
-                adapter.setFavoriteList(it)
+                adapter.favList = it as ArrayList<FavoriteModel>
+                Log.d("_log", "observeViewModel: ${adapter.favList}")
             } else {
                 Toast.makeText(this, "Favorites is Empty", Toast.LENGTH_SHORT).show()
             }

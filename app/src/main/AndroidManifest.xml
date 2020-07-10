@@ -26,7 +26,7 @@
             android:exported="true" />
 
         <provider
-            android:name=".data.local.FavoriteProvider"
+            android:name=".provider.FavoriteProvider"
             android:authorities="com.cuncisboss.githubuserfinal"
             android:enabled="true"
             android:exported="true"

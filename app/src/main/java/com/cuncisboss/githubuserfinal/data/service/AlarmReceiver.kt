@@ -28,7 +28,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-        val type = intent.getStringExtra(EXTRA_TYPE)
         val message = intent.getStringExtra(EXTRA_MESSAGE)
 
         showAlarmNotification(context, TYPE_REPEATING, message, ID_REPEATING)
@@ -88,7 +87,7 @@ class AlarmReceiver : BroadcastReceiver() {
         Toast.makeText(context, "Alarm Set up", Toast.LENGTH_SHORT).show()
     }
 
-    fun cancelAlarm(context: Context, type: String) {
+    fun cancelAlarm(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
 
@@ -100,7 +99,7 @@ class AlarmReceiver : BroadcastReceiver() {
         Toast.makeText(context, "Alarm Cancelled", Toast.LENGTH_SHORT).show()
     }
 
-    fun isAlarmSet(context: Context, type: String): Boolean {
+    fun isAlarmSet(context: Context): Boolean {
         val intent = Intent(context, AlarmReceiver::class.java)
         return PendingIntent.getBroadcast(context, ID_REPEATING, intent, PendingIntent.FLAG_NO_CREATE) != null
     }

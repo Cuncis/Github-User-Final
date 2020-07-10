@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ConsumerApp</string>
+    <string name="search">Username global search…</string>
+    <string name="follower">Follower</string>
+    <string name="following">Following</string>
+    <string name="repo_value">Repository	: %s</string>
+    <string name="value_fol">: %s</string>
+    <string name="detail_user">Detail User</string>
+    <string name="user_data_json">{     \"users\": [{             \"username\": \"JakeWharton\",             \"name\": \"Jake Wharton\",             \"avatar\": \"@drawable/user1\",             \"company\": \"Google, Inc.\",             \"location\": \"Pittsburgh, PA, USA\",             \"repository\": 102,             \"follower\": 56995,             \"following\": 12         },         {             \"username\": \"amitshekhariitbhu\",             \"name\": \"AMIT SHEKHAR\",             \"avatar\": \"@drawable/user2\",             \"company\": \"@MindOrksOpenSource\",             \"location\": \"New Delhi, India\",             \"repository\": 37,             \"follower\": 5153,             \"following\": 2         },         {             \"username\": \"romainguy\",             \"name\": \"Romain Guy\",             \"avatar\": \"@drawable/user3\",             \"company\": \"Google\",             \"location\": \"California\",             \"repository\": 9,             \"follower\": 7972,             \"following\": 0         },         {             \"username\": \"chrisbanes\",             \"name\": \"Chris Banes\",             \"avatar\": \"@drawable/user4\",             \"company\": \"@google working on @android\",             \"location\": \"Sydney, Australia\",             \"repository\": 30,             \"follower\": 14725,             \"following\": 1         },         {             \"username\": \"tipsy\",             \"name\": \"David\",             \"avatar\": \"@drawable/user5\",             \"company\": \"Working Group Two\",             \"location\": \"Trondheim, Norway\",             \"repository\": 56,             \"follower\": 788,             \"following\": 0         },         {             \"username\": \"ravi8x\",             \"name\": \"Ravi Tamada\",             \"avatar\": \"@drawable/user6\",             \"company\": \"AndroidHive | Droid5\",             \"location\": \"India\",             \"repository\": 28,             \"follower\": 18628,             \"following\": 3         },         {             \"username\": \"jasoet\",             \"name\": \"Deny Prasetyo\",             \"avatar\": \"@drawable/user7\",             \"company\": \"@gojek-engineering\",             \"location\": \"Kotagede, Yogyakarta, Indonesia\",             \"repository\": 44,             \"follower\": 277,             \"following\": 39         },         {             \"username\": \"budioktaviyan\",             \"name\": \"Budi Oktaviyan\",             \"avatar\": \"@drawable/user8\",             \"company\": \"@KotlinID\",             \"location\": \"Jakarta, Indonesia\",             \"repository\": 110,             \"follower\": 178,             \"following\": 23         },         {             \"username\": \"hendisantika\",             \"name\": \"Hendi Santika\",             \"avatar\": \"@drawable/user9\",             \"company\": \"@JVMDeveloperID @KotlinID @IDDevOps\",             \"location\": \"Bojongsoang - Bandung Jawa Barat\",             \"repository\": 1064,             \"follower\": 428,             \"following\": 61         },         {             \"username\": \"sidiqpermana\",             \"name\": \"Sidiq Permana\",             \"avatar\": \"@drawable/user10\",             \"company\": \"Nusantara Beta Studio\",             \"location\": \"Jakarta Indonesia\",             \"repository\": 65,             \"follower\": 465,             \"following\": 10         }     ] }</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">Loading …</string>
+    <string name="settings">Settings</string>
+    <string name="favorites">Favorites</string>
+    <string name="github_search_user">Github Search User</string>
+    <string name="atur_alarm">Atur Alarm</string>
+    <string name="atur">Atur</string>
+    <string name="_00_00">00:00</string>
+    <string name="alarm_msg">Ada update terbaru nih dari github</string>
+    <string name="batal">Batal</string>
+    <string name="you_have_no_followers">You have no followers</string>
+    <string name="you_have_no_following">You have no following</string>
+</resources>

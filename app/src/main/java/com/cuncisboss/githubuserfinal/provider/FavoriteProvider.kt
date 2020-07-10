@@ -1,4 +1,4 @@
-package com.cuncisboss.githubuserfinal.data.local
+package com.cuncisboss.githubuserfinal.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -7,10 +7,10 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.AUTHORITY
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.AUTHORITY
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
+import com.cuncisboss.githubuserfinal.data.local.FavoriteHelper
 
 class FavoriteProvider : ContentProvider() {
 
@@ -22,8 +22,12 @@ class FavoriteProvider : ContentProvider() {
     }
 
     init {
-        sUriMatcher.addURI(AUTHORITY, TABLE_NAME, FAVORITE)
-        sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", FAVORITE_ID)
+        sUriMatcher.addURI(AUTHORITY, TABLE_NAME,
+            FAVORITE
+        )
+        sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#",
+            FAVORITE_ID
+        )
     }
 
     override fun onCreate(): Boolean {
@@ -39,7 +43,7 @@ class FavoriteProvider : ContentProvider() {
 
         return when (sUriMatcher.match(uri)) {
             FAVORITE -> favoriteHelper.queryAll()
-            FAVORITE_ID -> favoriteHelper.queryById(uri.lastPathSegment.toString())
+            FAVORITE_ID -> favoriteHelper.queryByUsername(selection!!)
             else -> null
         }
     }
@@ -56,7 +60,6 @@ class FavoriteProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        Log.d("_log", "delete: ${sUriMatcher.match(uri)}")
         val deleted: Int = when (FAVORITE_ID) {
             sUriMatcher.match(uri) -> {
                 favoriteHelper.deleteById(uri.lastPathSegment.toString())

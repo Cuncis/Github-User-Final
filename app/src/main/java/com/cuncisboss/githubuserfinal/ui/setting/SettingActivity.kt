@@ -36,7 +36,7 @@ class SettingActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListen
     }
 
     private fun initListener() {
-        if (alarmReceiver.isAlarmSet(this, AlarmReceiver.TYPE_REPEATING)) {
+        if (alarmReceiver.isAlarmSet(this)) {
             alarmOn()
         }
         if (switch_alarm.isChecked) {
@@ -66,7 +66,7 @@ class SettingActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListen
         }
 
         btn_cancelAlarm.setOnClickListener {
-            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING)
+            alarmReceiver.cancelAlarm(this)
             alarmOff()
             GithubPref.clear(this)
             tv_setTime.text = getString(R.string._00_00)

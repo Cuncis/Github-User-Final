@@ -1,11 +1,12 @@
-package com.cuncisboss.githubuserfinal.data.local.db
+package com.cuncisboss.consumerapp.data.local
 
 import android.database.Cursor
-import android.provider.BaseColumns._ID
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_IMAGE
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
-import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
+import android.provider.BaseColumns
+import com.cuncisboss.consumerapp.data.local.FavoriteContract.FavoriteColoums.Companion.COLUMN_IMAGE
+import com.cuncisboss.consumerapp.data.local.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
+import com.cuncisboss.consumerapp.data.local.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
+import com.cuncisboss.consumerapp.data.model.FavoriteModel
+
 
 object MappingHelper {
 
@@ -14,7 +15,7 @@ object MappingHelper {
 
         favoriteCursor?.apply {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(_ID))
+                val id = getInt(getColumnIndexOrThrow(BaseColumns._ID))
                 val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
                 val image = getString(getColumnIndexOrThrow(COLUMN_IMAGE))
                 val isFavorite = getInt(getColumnIndexOrThrow(IS_FAVORITE))
@@ -29,7 +30,7 @@ object MappingHelper {
         var favorite = FavoriteModel()
         favoriteCursor?.apply {
             moveToFirst()
-            val id = getInt(getColumnIndexOrThrow(_ID))
+            val id = getInt(getColumnIndexOrThrow(BaseColumns._ID))
             val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
             val image = getString(getColumnIndexOrThrow(COLUMN_IMAGE))
             val isFavorite = getInt(getColumnIndexOrThrow(IS_FAVORITE))

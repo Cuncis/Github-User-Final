@@ -12,7 +12,15 @@ import kotlinx.android.synthetic.main.item_user_foll.view.*
 
 class FavoriteAdapter(val favoriteClickListener: FavoriteClickListener) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
-    var favList = arrayListOf<FavoriteModel>()
+    var favList = ArrayList<FavoriteModel>()
+        set(favList) {
+            if (favList.size > 0) {
+                this.favList.clear()
+            }
+            this.favList.addAll(favList)
+
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user_foll, parent, false)
@@ -29,12 +37,6 @@ class FavoriteAdapter(val favoriteClickListener: FavoriteClickListener) : Recycl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(favList[position])
-    }
-
-    fun setFavoriteList(newList: List<FavoriteModel>) {
-        favList.clear()
-        favList.addAll(newList)
-        notifyDataSetChanged()
     }
 
     fun removeFavoriteList(position: Int) {

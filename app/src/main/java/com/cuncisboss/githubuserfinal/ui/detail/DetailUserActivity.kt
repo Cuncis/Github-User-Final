@@ -2,8 +2,11 @@ package com.cuncisboss.githubuserfinal.ui.detail
 
 import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.provider.BaseColumns._ID
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -13,11 +16,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cuncisboss.githubuserfinal.R
 import com.cuncisboss.githubuserfinal.adapter.ViewPagerAdapter
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_IMAGE
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
-import com.cuncisboss.githubuserfinal.data.local.db.FavoriteHelper
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.COLUMN_IMAGE
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.CONTENT_URI
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
+import com.cuncisboss.githubuserfinal.data.local.FavoriteHelper
+import com.cuncisboss.githubuserfinal.data.local.MappingHelper
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.remote.ApiClient
@@ -147,7 +151,7 @@ class DetailUserActivity : AppCompatActivity() {
                         tv_following.text = response.following.toString()
                         img_profil.getImageFromUrl(response.avatarUrl)
 
-                        if (getUser(response.login) == 0) {
+                        if (getUser(FavoriteModel(response.login, response.avatarUrl)) == 0) {
                             removeFavorite(true)
                         } else {
                             setFavorite(true)
@@ -161,7 +165,7 @@ class DetailUserActivity : AppCompatActivity() {
             }
         })
         detailUserViewModel.favDetail.observe(this, Observer { response ->
-            if (getUser(response.login) == 0) {
+            if (getUser(FavoriteModel(response.login, response.avatarUrl)) == 0) {
                 addFavorite(FavoriteModel(response.login, response.avatarUrl, 1))
                 Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
             } else {
@@ -185,11 +189,12 @@ class DetailUserActivity : AppCompatActivity() {
         contentResolver.delete(uri, null, null)
     }
 
-    private fun getUser(username: String): Int {
-        val cursor = dbHelper.queryByUsername(username)
-
-        return if (cursor.moveToFirst()){
-            cursor.getInt(3)
+    private fun getUser(favoriteModel: FavoriteModel): Int {
+        val uri = Uri.parse("$CONTENT_URI/${favoriteModel.id}")
+        val cursor = contentResolver.query(uri, null, favoriteModel.name, null, null)
+        return if (cursor!!.moveToFirst()) {
+            val fav = MappingHelper.mapCursorToObject(cursor)
+            fav.isFavorite
         } else {
             0
         }
