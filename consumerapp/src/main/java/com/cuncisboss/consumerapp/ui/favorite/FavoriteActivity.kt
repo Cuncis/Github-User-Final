@@ -127,7 +127,7 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.FavoriteClickListe
             dialog.dismiss()
         }
         builder.setNegativeButton("Remove") { dialog, _ ->
-            favoriteViewModel.removeFavorite(favModel.id.toString())
+            favoriteViewModel.removeFavorite(favModel)
             adapter.removeFavoriteList(position)
             dialog.dismiss()
         }

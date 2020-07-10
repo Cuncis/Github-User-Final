@@ -43,7 +43,7 @@ class FavoriteProvider : ContentProvider() {
 
         return when (sUriMatcher.match(uri)) {
             FAVORITE -> favoriteHelper.queryAll()
-            FAVORITE_ID -> favoriteHelper.queryByUsername(selection!!)
+            FAVORITE_ID -> favoriteHelper.queryByUsername(selection.toString())
             else -> null
         }
     }
@@ -62,7 +62,7 @@ class FavoriteProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val deleted: Int = when (FAVORITE_ID) {
             sUriMatcher.match(uri) -> {
-                favoriteHelper.deleteById(uri.lastPathSegment.toString())
+                favoriteHelper.deleteByUsername(selection.toString())
             }
             else -> 0
         }

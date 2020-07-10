@@ -40,11 +40,11 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun removeFavorite(id: String) {
-        val uri = Uri.parse("$CONTENT_URI/$id")
+    fun removeFavorite(favoriteModel: FavoriteModel) {
+        val uri = Uri.parse("$CONTENT_URI/${favoriteModel.id}")
         viewModelScope.launch {
             try {
-                val cursor = app.contentResolver.delete(uri, null, null)
+                val cursor = app.contentResolver.delete(uri, favoriteModel.name, null)
                 _removeFavorite.postValue(cursor)
             } catch (e: Exception) {
                 e.printStackTrace()

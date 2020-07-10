@@ -26,6 +26,7 @@ import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.remote.ApiClient
 import com.cuncisboss.githubuserfinal.repository.ApiGithubRepository
+import com.cuncisboss.githubuserfinal.ui.favorite.FavoriteViewModel
 import com.cuncisboss.githubuserfinal.ui.setting.SettingActivity
 import com.cuncisboss.githubuserfinal.util.Constants
 import com.cuncisboss.githubuserfinal.util.ImageHelper.Companion.getImageFromUrl
@@ -186,7 +187,7 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun deleteFavorite(favoriteModel: FavoriteModel) {
         val uri = Uri.parse("$CONTENT_URI/${favoriteModel.id}")
-        contentResolver.delete(uri, null, null)
+        contentResolver.delete(uri, favoriteModel.name, null)
     }
 
     private fun getUser(favoriteModel: FavoriteModel): Int {

@@ -179,7 +179,7 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun deleteFavorite(favoriteModel: FavoriteModel) {
         val uri = Uri.parse("$CONTENT_URI/${favoriteModel.id}")
-        contentResolver.delete(uri, null, null)
+        contentResolver.delete(uri, favoriteModel.name, null)
     }
 
     private fun getUser(favoriteModel: FavoriteModel): Int {

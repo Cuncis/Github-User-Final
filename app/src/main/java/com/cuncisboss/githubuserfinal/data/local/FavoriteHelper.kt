@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns._ID
+import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.COLUMN_NAME
 import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.TABLE_NAME
 import java.sql.SQLException
 
@@ -57,16 +58,12 @@ class FavoriteHelper(context: Context) {
         return db.rawQuery("SELECT * FROM $DATABASE_TABLE WHERE name=?", arrayOf(username))
     }
 
-    fun queryById(id: String): Cursor {
-        return db.rawQuery("SELECT * FROM $DATABASE_TABLE WHERE $_ID=?", arrayOf(id))
-    }
-
     fun insert(values: ContentValues): Long {
         return db.insert(DATABASE_TABLE, null, values)
     }
 
-    fun deleteById(id: String): Int {
-        return db.delete(DATABASE_TABLE, "$_ID=?", arrayOf(id))
+    fun deleteByUsername(name: String): Int {
+        return db.delete(DATABASE_TABLE, "$COLUMN_NAME='$name'", null)
     }
 }
 
