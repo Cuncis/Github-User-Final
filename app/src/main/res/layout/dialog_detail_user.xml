@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_dialogProfil"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_dialogUsername"
+        android:text="@string/username"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogName"
+            tools:text="Budi Gunawan"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/company"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogCompany"
+            tools:text="Gojek"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogLocation"
+            tools:text="Jakarta"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/follower"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogFollower"
+            tools:text="1000"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/following"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogFollowing"
+            tools:text="10"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/repository"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:text="@string/double_dot"/>
+
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_dialogRepo"
+            tools:text="100"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
+        android:id="@+id/btn_dialogOk"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/ok"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"/>
+
+</LinearLayout>

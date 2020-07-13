@@ -7,9 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.BaseColumns._ID
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,6 +24,7 @@ import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoum
 import com.cuncisboss.githubuserfinal.data.local.FavoriteContract.FavoriteColoums.Companion.IS_FAVORITE
 import com.cuncisboss.githubuserfinal.data.local.FavoriteHelper
 import com.cuncisboss.githubuserfinal.data.local.MappingHelper
+import com.cuncisboss.githubuserfinal.data.model.DetailUserResponse
 import com.cuncisboss.githubuserfinal.data.model.FavoriteModel
 import com.cuncisboss.githubuserfinal.data.model.UserGithub
 import com.cuncisboss.githubuserfinal.data.remote.ApiClient
@@ -34,6 +37,16 @@ import com.cuncisboss.githubuserfinal.util.Status
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModel
 import com.cuncisboss.githubuserfinal.viewmodel.ApiGithubViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail_user.*
+import kotlinx.android.synthetic.main.dialog_detail_user.*
+import kotlinx.android.synthetic.main.dialog_detail_user.btn_dialogOk
+import kotlinx.android.synthetic.main.dialog_detail_user.img_dialogProfil
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogCompany
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogFollower
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogFollowing
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogLocation
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogName
+import kotlinx.android.synthetic.main.dialog_detail_user.tv_dialogUsername
+import kotlinx.android.synthetic.main.dialog_detail_user.view.*
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -41,6 +54,8 @@ class DetailUserActivity : AppCompatActivity() {
 
     private var isFavorite = 0
     private lateinit var dbHelper: FavoriteHelper
+
+    private var userDetail: DetailUserResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +66,41 @@ class DetailUserActivity : AppCompatActivity() {
         initView()
 
         initFavorite()
+
+        initListener()
+    }
+
+    private fun initListener() {
+        tv_viewDetails.setOnClickListener {
+            if (userDetail != null) {
+                dialogInfoUser()
+            }
+        }
+    }
+
+    private fun dialogInfoUser() {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(false)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_detail_user, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+
+        view.apply {
+            img_dialogProfil.getImageFromUrl(userDetail!!.avatarUrl)
+            tv_dialogUsername.text = userDetail!!.login
+            tv_dialogName.text = userDetail!!.name
+            tv_dialogCompany.text = userDetail!!.company
+            tv_dialogLocation.text = userDetail!!.location
+            tv_dialogFollower.text = userDetail!!.followers.toString()
+            tv_dialogFollowing.text = userDetail!!.following.toString()
+            tv_dialogRepo.text = userDetail!!.publicRepos.toString()
+            btn_dialogOk.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
     }
 
     private fun initView() {
@@ -148,6 +198,7 @@ class DetailUserActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { response ->
+                        userDetail = response
                         tv_follower.text = response.followers.toString()
                         tv_following.text = response.following.toString()
                         img_profil.getImageFromUrl(response.avatarUrl)

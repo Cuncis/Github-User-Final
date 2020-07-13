@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.cuncisboss.consumerapp.R
+import com.cuncisboss.consumerapp.ui.search.SearchUserActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,12 +43,17 @@ class AlarmReceiver : BroadcastReceiver() {
         val CHANNEL_ID = "Channel_1"
         val CHANNEL_NAME = "Alarm Channel"
 
+        val intent = Intent(context, SearchUserActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_baseline_access_time)
             .setContentTitle(title)
             .setContentText(message)
+            .setContentIntent(pendingIntent)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setSound(alarmSound)

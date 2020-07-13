@@ -19,4 +19,12 @@
     <string name="batal">Batal</string>
     <string name="you_have_no_followers">You have no followers</string>
     <string name="you_have_no_following">You have no following</string>
+    <string name="view_details">View Details</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="company">Company</string>
+    <string name="location">Location</string>
+    <string name="double_dot">:</string>
+    <string name="repository">Repository</string>
+    <string name="ok">Ok</string>
 </resources>
